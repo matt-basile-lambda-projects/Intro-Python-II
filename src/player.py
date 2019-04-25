@@ -22,3 +22,8 @@ class Player:
                 return False
     def describe_current_room(self):
         return self.current_room.describe_room()
+    def bio_description(self):
+        return f'Name: {self.name}. Items: {self.itembag}, Current Room: {self.current_room}'
+    def show_itembag(self):
+        for i in self.itembag:
+            return i.name

@@ -60,50 +60,75 @@ def change_rooms(player):
 
 def show_items(searching, room): 
     room.show_items()
-    item = input("Try picking one up! Just type that Items name or type q to return to the game.")
+    item = input("Try looking or picking an item up! Just type that view:object or pickup:object name or type q to return to the game.")
     if item == 'q':
         searching = False
+        return searching
     else:
-        for i in room.contains:
-            if i.name == item:
-                player.pick_up(i)
-                room.remove_item(i)
-                print(f"You've added an {i.name} to your itembag. It's {i.description}")
-                searching = False
-            else:
-                print("Sorry that item doesn't exist. Try searching again")
-                searching = False
+        search = item.split(':')
+        if(search[0] == "view"):
+            for i in room.contains:
+                if i.name == search[1]:
+                    print(f"Name:{i.name}, Description: {i.description}")
+                    searching = True
+                    return searching
+        elif(search[0] == "pickup"):
+            for i in room.contains:
+                if i.name.upper() == search[1].upper():
+                    player.pick_up(i)
+                    room.remove_item(i)
+                    print(f"You've added an {i.name} to your itembag. It's {i.description}")
+                    searching = False
+                    return searching
+        else:
+            print("Sorry that item doesn't exist. Try searching again")
+            searching = False
+            return searching
             
-            
-
-
-# Write a loop that:
-
+player = None
 while active == True:
-    print("Howdy there stranger! Welcome to Banjo Quest! You can exit anytime by typing q")
-    name = input("What's your name?\n")
-    if name == 'q':
-        print("Thanks for playing!")
-        active == False
-    # Make a new player object that is currently in the 'outside' room. That's Home in my game
-    player = Player(name, room['bedroom'])
-    # * Prints the current room name
-    # * Prints the current description (the textwrap module might be useful here).
-    cmd = input(f'{player.name} you are currently located in your {player.current_room.name}.\n{player.describe_current_room()}.\nIf you want to start moving type move or if you want to look around your {player.current_room.name} type search.')
-    # Waits for user input and decides what to do.
-    if cmd == "move":
-        # If the user enters a cardinal direction, attempt to move to the room there.
-        change_rooms(player)
-        # Print an error message if the movement isn't allowed.
-    if cmd == "search":
-        searching = True
-        show_items(searching, player.current_room)
-    
-    print("Let's Do something New!")
-
-    # elif welcome == 'n':
-    #     print("Thanks for playing!")
-    #     active = False
-
-#
-# If the user enters "q", quit the game.
+    if player == None: 
+        print("Welcome to Banjo Quest Let's Start your journey!")
+        cmd = input("Type one of these Commands: Bio | Quit\n")
+        if cmd == "Quit":
+            active = False
+        elif cmd == "Bio":
+            if player is not None:
+                print(player.bio_description())
+            else:
+                name = input("Your Bio is empty! Let's create it! Please enter your name: \n")
+                player = Player(name, room['bedroom'])  
+    else:
+        cmd = input("Type one of these Commands: Bio | Action | Items | Quit\n")
+        if cmd == "Quit":
+            active = False
+        elif cmd == "Bio":
+            if player is not None:
+                print(player.bio_description())
+            else:
+                name = input("Your Bio is empty! Let's create it! Please enter your name: \n")
+                player = Player(name, room['bedroom'])  
+        elif cmd == "Action":
+            action = input("Type one of these Actions: Move | Search | Quit")
+            if action == "Quit":
+                break
+            elif action == "Move":
+                change_rooms(player)
+            elif action == "Search":
+                searching = True
+                while searching == True:
+                    searching = show_items(searching, player.current_room)
+        elif cmd == "Items":
+            parsing = True
+            while parsing == True: 
+                new_items = player.show_itembag()
+                if len(items) == 0:
+                    new_items = 0
+                item = input(f"Here are your current Items: {new_items}. Type one out to learn more about it or q to quit.")
+                if item == "q":
+                    parsing = False
+                else:
+                    for i in player.itembag:
+                        if i.name == item:
+                            print(f"Item: {i.name}, Description: {i.description}, Methods: {i}")
+            
