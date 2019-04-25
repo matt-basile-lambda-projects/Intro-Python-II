@@ -61,7 +61,7 @@ def change_rooms(player):
 def show_items(searching, room): 
     room.show_items()
     item = input("Try looking or picking an item up! Just type that view object or pickup object name or type q to return to the game.")
-    if item == 'q':
+    if item.upper() == 'Q':
         searching = False
         return searching
     else:
@@ -100,17 +100,17 @@ while active == True:
                 player = Player(name, room['bedroom'])  
     else:
         cmd = input("Type one of these Commands: Bio | Action | Items | Quit\n")
-        if cmd == "Quit":
+        if cmd.upper() == "QUIT":
             active = False
-        elif cmd == "Bio":
+        elif cmd.upper() == "BIO":
             if player is not None:
                 print(player.bio_description())
             else:
                 name = input("Your Bio is empty! Let's create it! Please enter your name: \n")
                 player = Player(name, room['bedroom'])  
-        elif cmd == "Action":
+        elif cmd.upper() == "ACTION":
             action = input("Type one of these Actions: Move | Search | Quit")
-            if action == "Quit":
+            if action.upper() == "QUIT":
                 break
             elif action == "Move":
                 change_rooms(player)
@@ -118,7 +118,7 @@ while active == True:
                 searching = True
                 while searching == True:
                     searching = show_items(searching, player.current_room)
-        elif cmd == "Items":
+        elif cmd.upper() == "ITEMS":
             parsing = True
             while parsing == True: 
                 new_items = player.show_itembag()
