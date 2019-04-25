@@ -60,12 +60,12 @@ def change_rooms(player):
 
 def show_items(searching, room): 
     room.show_items()
-    item = input("Try looking or picking an item up! Just type that view:object or pickup:object name or type q to return to the game.")
+    item = input("Try looking or picking an item up! Just type that view object or pickup object name or type q to return to the game.")
     if item == 'q':
         searching = False
         return searching
     else:
-        search = item.split(':')
+        search = item.split(' ')
         if(search[0] == "view"):
             for i in room.contains:
                 if i.name == search[1]:
