@@ -27,3 +27,5 @@ class Player:
     def show_itembag(self):
         for i in self.itembag:
             return i.name
+    def remove_item(self,item):
+        self.itembag.remove(item)

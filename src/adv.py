@@ -124,9 +124,16 @@ while active == True:
                 new_items = player.show_itembag()
                 if len(items) == 0:
                     new_items = 0
-                item = input(f"Here are your current Items: {new_items}. Type one out to learn more about it or q to quit.")
+                item = input(f"Here are your current Items: {new_items}.\n->Type one out to learn more about it.\n->Type drop item to remove it\n ->Type q to quit.\n")
                 if item == "q":
                     parsing = False
+                elif item[0].upper()== "D":
+                   drop = item.split(' ')
+                   for i in player.itembag:
+                        if i.name.upper() == drop[1].upper():
+                            player.remove_item(i)
+                            player.current_room.add_item(i)
+                            print(f"You've removed {i.name} from your itembag. It's now in {player.current_room}")
                 else:
                     for i in player.itembag:
                         if i.name == item:
