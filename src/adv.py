@@ -5,12 +5,12 @@ from items import Item, Banjo
 
 room = {
     'bedroom':  Room("Bedroom", "Your room is so awesome! You've got a poster of Earl Scruggs on the wall, YeHaw!"),
-    'living_room':    Room("Living Room", """Your living room is know for two things: Grandpa Willy's Banjo and your Dog Yeller's nose shattering farts!"""),
-    'kitchen':    Room("Kitchen", """Is mom making her famous chicken for the fair tonight? Smellsssssss D-Licious"""),
-    'road': Room("The Road", """It's a long a lonesome Road to the top of Rock and Roll... but should only be 5 minutes to get to town!"""),
-    'city_center': Room("City Center", """Look's like they're setting up for the Harvest festival tonight! Should be quite the show :)"""),
-    'main_stage':   Room("Main Stage", """The main stage where Banjo legend Earl Scruggs played. Boy... it's a little chilly isn't it?"""),
-    'food_stand':   Room("Food Stand", """Your old friend is working the Twinkie stand! Go say hey to your ole pal!"""), 
+    'living_room':    Room("Living Room", "Your living room is know for two things: Grandpa Willy's Banjo and your Dog Yeller's nose shattering farts!"),
+    'kitchen':    Room("Kitchen", "Is mom making her famous chicken for the fair tonight? Smellsssssss D-Licious"),
+    'road': Room("The Road", "It's a long a lonesome Road to the top of Rock and Roll... but should only be 5 minutes to get to town!"),
+    'city_center': Room("City Center", "Look's like they're setting up for the Harvest festival tonight! Should be quite the show :)"),
+    'main_stage':   Room("Main Stage", "The main stage where Banjo legend Earl Scruggs played. Boy... it's a little chilly isn't it?"),
+    'food_stand':   Room("Food Stand", "Your old friend is working the Twinkie stand! Go say hey to your ole pal!"), 
 }
 items ={
     'poster': Item("Earl Scruggs Poster", "Your Grandpa Willy gave you this poster for your 5th Birthday. It's a beaut!" ),
@@ -42,19 +42,26 @@ active = True
 moved = False
 
 def change_rooms(player):
-    print(player.current_room.name)
     valid_directions = ["n", "w", "s", "e"]
     direction = input(f"You are currently located at {player.current_room.name}. {player.describe_current_room()}. Type n,s,e or w to move North, South, East or West\n")
     if(direction in valid_directions):
-        player.change_rooms(direction)
-        moved = True
+        new = player.change_rooms(direction)
+        if new == False:
+            print(f'Sorry the direction is unavailable please try again. ')
+            change_rooms(player)
+        elif new == True:
+            moved = True
+        else:
+            print(f'Sorry the direction is unavailable please try again. ')
+            change_rooms(player)
     else:
-        moved = False
+        print(f'Sorry the direction is unavailable please try again. ')
+        change_rooms(player)
 
 def show_items(searching, room): 
     room.show_items()
-    item = input("Try picking one up! Just type that Items name or type Q to return to the game.")
-    if item == 'Q':
+    item = input("Try picking one up! Just type that Items name or type q to return to the game.")
+    if item == 'q':
         searching = False
     else:
         for i in room.contains:
@@ -73,29 +80,26 @@ def show_items(searching, room):
 # Write a loop that:
 
 while active == True:
-    name = input("Howdy there stranger! What's your name?\n")
+    print("Howdy there stranger! Welcome to Banjo Quest! You can exit anytime by typing q")
+    name = input("What's your name?\n")
     if name == 'q':
         print("Thanks for playing!")
         active == False
     # Make a new player object that is currently in the 'outside' room. That's Home in my game
     player = Player(name, room['bedroom'])
-    # welcome = input(f"Welcome {player.name}, are you ready to become a Banjo Legend? Press y to continue or n to exit\n")
-    # if welcome == 'y':
     # * Prints the current room name
     # * Prints the current description (the textwrap module might be useful here).
-    cmd = input(f'{player.name} you are currently located in your {player.current_room.name}. {player.describe_current_room()}\n. If you want to start moving type move or if you want to look around your room type search.')
+    cmd = input(f'{player.name} you are currently located in your {player.current_room.name}.\n{player.describe_current_room()}.\nIf you want to start moving type move or if you want to look around your {player.current_room.name} type search.')
+    # Waits for user input and decides what to do.
     if cmd == "move":
+        # If the user enters a cardinal direction, attempt to move to the room there.
         change_rooms(player)
+        # Print an error message if the movement isn't allowed.
     if cmd == "search":
         searching = True
         show_items(searching, player.current_room)
-    # Waits for user input and decides what to do.
-    # If the user enters a cardinal direction, attempt to move to the room there.
-    # Print an error message if the movement isn't allowed.
-    while moved == False:
-        print('Sorry that moves Unavailable please try again. ')
-        change_rooms(player)
-    print(player.current_room)
+    
+    print("Let's Do something New!")
 
     # elif welcome == 'n':
     #     print("Thanks for playing!")

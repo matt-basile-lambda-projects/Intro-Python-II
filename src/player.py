@@ -16,8 +16,9 @@ class Player:
             new_room = self.current_room.move_rooms(direction)
             if new_room is not None:
                 self.current_room = new_room
-                print(f"You've moved to {self.current_room}")
+                print(f"You've moved to {self.current_room.name}")
+                return True
             else: 
-                print("Sorry you can't move there.")
+                return False
     def describe_current_room(self):
         return self.current_room.describe_room()
