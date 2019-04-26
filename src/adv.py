@@ -5,7 +5,7 @@ from items import Item, Banjo
 
 room = {
     'bedroom':  Room("Bedroom", "Your room is so awesome! You've got a poster of Earl Scruggs on the wall, YeHaw!"),
-    'living_room':    Room("Living Room", "Your living room is know for two things: Grandpa Willy's Banjo and your Dog Yeller's nose shattering farts!"),
+    'living_room': Room("Living Room", "Your living room is know for two things: Grandpa Willy's Banjo and your Dog Yeller's nose shattering farts!"),
     'kitchen':    Room("Kitchen", "Is mom making her famous chicken for the fair tonight? Smellsssssss D-Licious"),
     'road': Room("The Road", "It's a long a lonesome Road to the top of Rock and Roll... but should only be 5 minutes to get to town!"),
     'city_center': Room("City Center", "Look's like they're setting up for the Harvest festival tonight! Should be quite the show :)"),
@@ -22,8 +22,11 @@ items ={
 # Link rooms together
 room['bedroom'].e_to = room["living_room"]
 room['bedroom'].w_to = room["kitchen"]
-room['bedroom'].add_item(items['poster'])
-room['living_room'].add_item(items['banjo'])
+# room['bedroom'].add_item(items["poster"])
+# room["living_room"].add_item(Banjo())
+print(room['bedroom'].add_item(items["poster"]))
+print(room['living_room'].add_item(items["banjo"]))
+# room['living_room'].add_item(items['banjo'])
 # room['home'].s_to = room['living_room']
 # room['living_room'].n_to = room['road']
 # room['living_room'].s_to = room['home']
@@ -59,6 +62,7 @@ def change_rooms(player):
         change_rooms(player)
 
 def show_items(searching, room): 
+    print(room.contains)
     room.show_items()
     item = input("Try looking or picking an item up! Just type that view object or pickup object name or type q to return to the game.")
     if item.upper() == 'Q':
@@ -99,14 +103,14 @@ while active == True:
                 name = input("Your Bio is empty! Let's create it! Please enter your name: \n")
                 player = Player(name, room['bedroom'])  
     else:
-        cmd = input("Type one of these Commands: Bio | Action | Items | Quit\n")
+        cmd = input("\nType one of these Commands: Bio | Action | Items | Quit\n")
         if cmd.upper() == "QUIT":
             active = False
         elif cmd.upper() == "BIO":
             if player is not None:
                 print(player.bio_description())
             else:
-                name = input("Your Bio is empty! Let's create it! Please enter your name: \n")
+                name = input("\nYour Bio is empty! Let's create it! Please enter your name: \n")
                 player = Player(name, room['bedroom'])  
         elif cmd.upper() == "ACTION":
             action = input("Type one of these Actions: Move | Search | Quit")
