@@ -1,11 +1,10 @@
 # Implement a class to hold room information. This should have name and
 # description attributes.
-
 class Room: 
     def __init__(self, name, description, contains=[]):
         self.name = name
         self.description = description
-        self.contains = contains
+        self.contains = [contains]
         self.linked_rooms = []
         self.n_to = None
         self.e_to = None
@@ -33,6 +32,3 @@ class Room:
     def show_items(self):
         for i in self.contains:
             print(i.name)
-    # def link_rooms(self, room_to_link, direction):
-    #     self.linked_rooms.append({direction: room_to_link})
-    #     #print(self.name + ' linked Rooms' + repr(self.linked_rooms))

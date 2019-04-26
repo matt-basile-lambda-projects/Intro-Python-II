@@ -4,8 +4,8 @@ class Item:
         self.description = description
 
 class Banjo(Item):
-    def __init__(self):
-        super().__init__("Banjo", "Your Grandpa Willy's Banjo, he gave it to you to serenade the world!" )
+    def __init__(self, name, description):
+        super().__init__(name, description )
         self.level = 0
     def play(self):
         if(self.level < 3):
